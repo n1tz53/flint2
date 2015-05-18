@@ -28,24 +28,28 @@
 #include <gmp.h>
 #include "flint.h"
 #include "ulong_extras.h"
+#include "fmpz.h"                 //
 #include "qsieve.h"
 
 int main(void)
 {
    int i;
    FLINT_TEST_INIT(state);
-   
-   flint_printf("ll_knuth_schroeppel....");
+
+   //flint_printf("ll_knuth_schroeppel....");
+   flint_printf("fmpz_knuth_schroeppel....");
    fflush(stdout);
- 
-   
+
+
 
    for (i = 0; i < 10000; i++) /* Test random n */
    {
-      mp_limb_t hi = 0, lo;
+      //mp_limb_t hi = 0, lo;
+      fmpz_t n;
+      fmpz_init(n);
       qs_t qs_inf;
       mp_bitcnt_t bits;
-      
+
       bits = n_randint(state, 2*FLINT_BITS) + 1;
       if (bits > FLINT_BITS)
       {
@@ -53,14 +57,14 @@ int main(void)
           hi = n_randbits(state, bits - FLINT_BITS);
       } else
           lo = n_randbits(state, bits);
-      
-      qsieve_ll_init(qs_inf, hi, lo);
-      qsieve_ll_knuth_schroeppel(qs_inf);
+
+      qsieve_ll_init(qs_inf, n);
+      qsieve_fmpz_knuth_schroeppel(qs_inf);
       qsieve_ll_clear(qs_inf);
    }
-   
+
    FLINT_TEST_CLEANUP(state);
-   
+
    flint_printf("PASS\n");
    return 0;
 }

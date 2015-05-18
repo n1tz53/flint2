@@ -42,10 +42,10 @@
    #include <stdint.h>
 #endif
 
-/* 
+/*
     Debug verbosity (bits are as follows):
-     >0   - print headings for each phase of the sieve and some 
-            simple data about the number of FB primes used, etc. 
+     >0   - print headings for each phase of the sieve and some
+            simple data about the number of FB primes used, etc.
       2   - print poly A coeffs
       4   - print polynomials used
       8   - print relations
@@ -80,11 +80,12 @@ typedef struct la_col_t /* matrix column */
 
 typedef struct qs_s
 {
-   mp_limb_t hi; /* Number to factor */
-   mp_limb_t lo;
+   //mp_limb_t hi; /* Number to factor */
+   //mp_limb_t lo;
+   fmpz_t n;
 
    mp_bitcnt_t bits; /* Number of bits of n */
-   
+
    ulong ks_primes; /* number of Knuth-Schroeppel primes */
 
    mp_limb_t k; /* Multiplier */
@@ -112,13 +113,13 @@ typedef struct qs_s
    mp_limb_t * A_modp; /* (A/p) mod p for each prime p dividing A */
    mp_limb_t * inv_p2; /* newton inverse of p^2 for each factor p of A */
 
-   mp_limb_t * B_terms; /* 
+   mp_limb_t * B_terms; /*
                            Let A_i = (A/p) mod p where p is the i-th prime
                            which is a factor of A, then B_terms[i] is
-                           {p^(1/2) / A_i} mod p * (A/p) where we take 
+                           {p^(1/2) / A_i} mod p * (A/p) where we take
                            the smaller square root of p
                         */
- 
+
    mp_limb_t * A_inv; /* A^(-1) mod p */
 
    mp_limb_t ** A_inv2B; /* A_inv[j][i] = 2*B_terms[j]*A^(-1) mod p */
@@ -185,7 +186,7 @@ typedef struct qs_s
 typedef qs_s qs_t[1];
 
 /*
-   Tuning parameters { bits, ks_primes, fb_primes, small_primes } 
+   Tuning parameters { bits, ks_primes, fb_primes, small_primes }
    for qsieve_ll_factor where:
      * bits is the number of bits of n
      * ks_primes is the max number of primes to try in Knuth-Schroeppel algo
@@ -238,7 +239,7 @@ FLINT_DLL void qsieve_ll_compute_C(qs_t qs_inf);
 FLINT_DLL slong qsieve_ll_collect_relations(qs_t qs_inf, char * sieve);
 
 FLINT_DLL slong qsieve_ll_merge_sort(qs_t qs_inf);
-      
+
 FLINT_DLL slong qsieve_ll_merge_relations(qs_t qs_inf);
 
 FLINT_DLL slong qsieve_ll_insert_relation(qs_t qs_inf, fmpz_t Y);
@@ -249,11 +250,11 @@ static __inline__ void insert_col_entry(la_col_t * col, slong entry)
 {
    if (((col->weight >> 4) << 4) == col->weight) /* need more space */
    {
-       if (col->weight != 0) col->data = 
+       if (col->weight != 0) col->data =
            (slong *) flint_realloc(col->data, (col->weight + 16)*sizeof(slong));
        else col->data = (slong *) flint_malloc(16*sizeof(slong));
    }
-   
+
    col->data[col->weight] = entry;
    col->weight++;
 }
@@ -268,15 +269,15 @@ static __inline__ void copy_col(la_col_t * col2, la_col_t * col1)
 static __inline__ void swap_cols(la_col_t * col2, la_col_t * col1)
 {
    la_col_t temp;
-   
+
    temp.weight = col1->weight;
    temp.data = col1->data;
    temp.orig = col1->orig;
-   
+
    col1->weight = col2->weight;
    col1->data = col2->data;
    col1->orig = col2->orig;
-   
+
    col2->weight = temp.weight;
    col2->data = temp.data;
    col2->orig = temp.orig;
@@ -296,7 +297,7 @@ FLINT_DLL uint64_t get_null_entry(uint64_t * nullrows, slong i, slong l);
 
 FLINT_DLL void reduce_matrix(qs_t qs_inf, slong * nrows, slong * ncols, la_col_t * cols);
 
-uint64_t * block_lanczos(flint_rand_t state, slong nrows, slong dense_rows, 
+uint64_t * block_lanczos(flint_rand_t state, slong nrows, slong dense_rows,
                                                        slong ncols, la_col_t *B);
 
 FLINT_DLL void qsieve_ll_square_root(fmpz_t X, fmpz_t Y, qs_t qs_inf,
