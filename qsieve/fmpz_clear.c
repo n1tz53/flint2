@@ -33,7 +33,7 @@ void qsieve_fmpz_clear(qs_t qs_inf)
 {
     slong i;
 
-    fmpz_clear(qs_inf->n); //
+    fmpz_clear(qs_inf->n);
     fmpz_clear(qs_inf->kn);
     fmpz_clear(qs_inf->C);
 

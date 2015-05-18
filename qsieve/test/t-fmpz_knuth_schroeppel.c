@@ -28,7 +28,7 @@
 #include <gmp.h>
 #include "flint.h"
 #include "ulong_extras.h"
-#include "fmpz.h"                 //
+#include "fmpz.h"
 #include "qsieve.h"
 
 int main(void)
@@ -36,29 +36,18 @@ int main(void)
    int i;
    FLINT_TEST_INIT(state);
 
-   //flint_printf("ll_knuth_schroeppel....");
    flint_printf("fmpz_knuth_schroeppel....");
    fflush(stdout);
 
 
 
-   for (i = 0; i < 100; i++) /* Test random n */    //2
+   for (i = 0; i < 10000; i++) /* Test random n */
    {
-      //mp_limb_t hi = 0, lo;
       fmpz_t n;
       fmpz_init(n);
       qs_t qs_inf;
-      /*mp_bitcnt_t bits;
 
-      bits = n_randint(state, 2*FLINT_BITS) + 1;
-      if (bits > FLINT_BITS)
-      {
-          lo = n_randlimb(state);
-          hi = n_randbits(state, bits - FLINT_BITS);
-      } else
-          lo = n_randbits(state, bits);*/
-
-      fmpz_randtest_not_zero(n, state, 130);
+      fmpz_randtest_unsigned(n, state, 130);
 
       if (fmpz_is_zero(n)) continue;
 
