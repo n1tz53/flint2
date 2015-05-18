@@ -42,13 +42,13 @@ int main(void)
 
 
 
-   for (i = 0; i < 10000; i++) /* Test random n */
+   for (i = 0; i < 100; i++) /* Test random n */    //2
    {
       //mp_limb_t hi = 0, lo;
       fmpz_t n;
       fmpz_init(n);
       qs_t qs_inf;
-      mp_bitcnt_t bits;
+      /*mp_bitcnt_t bits;
 
       bits = n_randint(state, 2*FLINT_BITS) + 1;
       if (bits > FLINT_BITS)
@@ -56,11 +56,15 @@ int main(void)
           lo = n_randlimb(state);
           hi = n_randbits(state, bits - FLINT_BITS);
       } else
-          lo = n_randbits(state, bits);
+          lo = n_randbits(state, bits);*/
 
-      qsieve_ll_init(qs_inf, n);
+      fmpz_randtest_not_zero(n, state, 130);
+
+      if (fmpz_is_zero(n)) continue;
+
+      qsieve_fmpz_init(qs_inf, n);
       qsieve_fmpz_knuth_schroeppel(qs_inf);
-      qsieve_ll_clear(qs_inf);
+      qsieve_fmpz_clear(qs_inf);
    }
 
    FLINT_TEST_CLEANUP(state);

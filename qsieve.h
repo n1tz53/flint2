@@ -82,7 +82,7 @@ typedef struct qs_s
 {
    //mp_limb_t hi; /* Number to factor */
    //mp_limb_t lo;
-   fmpz_t n;
+   fmpz_t n;                                      //
 
    mp_bitcnt_t bits; /* Number of bits of n */
 
@@ -218,11 +218,11 @@ static const mp_limb_t qsieve_ll_tune[][5] =
 
 #define BITS_ADJUST 10 /* no. bits less than f(X) to qualify for trial division */
 
-FLINT_DLL void qsieve_ll_init(qs_t qs_inf, mp_limb_t hi, mp_limb_t lo);
+FLINT_DLL void qsieve_fmpz_init(qs_t qs_inf, fmpz_t n);
 
-FLINT_DLL void qsieve_ll_clear(qs_t qs_inf);
+FLINT_DLL void qsieve_fmpz_clear(qs_t qs_inf);
 
-FLINT_DLL mp_limb_t qsieve_ll_knuth_schroeppel(qs_t qs_inf);
+FLINT_DLL mp_limb_t qsieve_fmpz_knuth_schroeppel(qs_t qs_inf);
 
 FLINT_DLL mp_limb_t qsieve_ll_primes_init(qs_t qs_inf);
 

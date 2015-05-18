@@ -29,23 +29,24 @@
 #include "qsieve.h"
 #include "fmpz.h"
 
-void qsieve_ll_clear(qs_t qs_inf)
+void qsieve_fmpz_clear(qs_t qs_inf)
 {
     slong i;
-    
+
+    fmpz_clear(qs_inf->n); //
     fmpz_clear(qs_inf->kn);
     fmpz_clear(qs_inf->C);
-   
+
     flint_free(qs_inf->factor_base);
     flint_free(qs_inf->sqrts);
     flint_free(qs_inf->B_terms);
     flint_free(qs_inf->A_inv);
-    
+
     if (qs_inf->A_inv2B != NULL)
         flint_free(qs_inf->A_inv2B[0]);
 
     flint_free(qs_inf->A_inv2B);
-    
+
     qs_inf->factor_base = NULL;
     qs_inf->sqrts       = NULL;
     qs_inf->B_terms     = NULL;
@@ -56,7 +57,7 @@ void qsieve_ll_clear(qs_t qs_inf)
     flint_free(qs_inf->factor);
     flint_free(qs_inf->relation);
     flint_free(qs_inf->qsort_arr);
-    
+
     if (qs_inf->matrix != NULL)
     {
         for (i = 0; i < qs_inf->buffer_size + qs_inf->num_unmerged; i++)
@@ -68,23 +69,23 @@ void qsieve_ll_clear(qs_t qs_inf)
 
         flint_free(qs_inf->matrix);
     }
-    
+
     if (qs_inf->Y_arr != NULL)
     {
         for (i = 0; i < qs_inf->buffer_size; i++)
-            fmpz_clear(qs_inf->Y_arr + i);    
+            fmpz_clear(qs_inf->Y_arr + i);
         flint_free(qs_inf->Y_arr);
     }
 
     flint_free(qs_inf->prime_count);
-     
+
     qs_inf->small       = NULL;
     qs_inf->factor      = NULL;
     qs_inf->matrix      = NULL;
     qs_inf->Y_arr       = NULL;
     qs_inf->relation    = NULL;
     qs_inf->qsort_arr   = NULL;
-    
+
     qs_inf->prime_count = NULL;
 
     qs_inf->A = 0;

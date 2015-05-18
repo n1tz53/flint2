@@ -29,15 +29,15 @@
 #include "qsieve.h"
 #include "fmpz.h"
 
-void qsieve_fmpz_init(qs_t qs_inf, fmpz_t n)
+void qsieve_fmpz_init(qs_t qs_inf, fmpz_t n)    //
 {
     ulong i;
 
     /* store n in struct */
-    qs_inf->n = n;
+    qs_inf->n = n;                      //
 
     /* determine the number of bits of n */
-    qs_inf->bits =  fmpz_bits(n);/*(hi ? FLINT_BITS + FLINT_BIT_COUNT(hi) : FLINT_BIT_COUNT(lo));*/
+    qs_inf->bits =  fmpz_bits(n);/*(hi ? FLINT_BITS + FLINT_BIT_COUNT(hi) : FLINT_BIT_COUNT(lo));*/    //
 
     /* determine which index in the tuning table n corresponds to */
     for (i = 1; i < QS_LL_TUNE_SIZE; i++)
